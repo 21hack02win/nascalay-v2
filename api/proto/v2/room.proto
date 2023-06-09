@@ -1,0 +1,49 @@
+
+syntax = "proto3";
+package api.proto.v2;
+
+service RoomService {
+  rpc Create(RoomServiceCreateRequest) returns (RoomServiceCreateResponse);
+  rpc Join(RoomServiceJoinRequest) returns (RoomServiceJoinResponse);
+}
+
+message RoomServiceCreateRequest {
+  string user_id = 1;
+  Avatar avatar = 2;
+  RoomConfig config = 3;
+}
+
+message RoomServiceCreateResponse {
+  string room_id = 1;
+  RoomConfig config = 2;
+}
+
+message RoomServiceJoinRequest {
+  string user_id = 1;
+  string room_id = 2;
+  Avatar avatar = 3;
+}
+
+message RoomServiceJoinResponse {
+  string room_id = 1;
+  string host_id = 2;
+  repeated User users = 3;
+  RoomConfig config = 4;
+}
+
+message Avatar {
+  string type = 1;
+  string color = 2;
+}
+
+message RoomConfig {
+  uint32 capacity = 1;
+  string shape = 2;
+  uint32 time_limit_seconds = 3;
+}
+
+message User {
+  string id = 1;
+  string name = 2;
+  Avatar avatar = 3;
+}
