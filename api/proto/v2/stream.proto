@@ -1,0 +1,25 @@
+syntax = "proto3";
+package api.proto.v2;
+
+service StreamService {
+  rpc Stream(stream StreamRequest) returns (stream StreamResponse) {}
+}
+
+message StreamRequest {
+  string room_id = 1;
+  string user_id = 2;
+  oneof event {
+    bool connect = 3;
+  }
+}
+
+message StreamResponse {
+  string room_id = 1;
+  oneof event {
+    EventNewUserJoined new_user_joined = 2;
+  }
+}
+
+message EventNewUserJoined {
+  string user_id = 1;
+}
