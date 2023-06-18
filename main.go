@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/21hack02win/nascalay-v2-backend/internal/handler"
+	"github.com/21hack02win/nascalay-v2/internal/handler"
 	"golang.org/x/net/http2"
 	"golang.org/x/net/http2/h2c"
 )

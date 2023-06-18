@@ -3,7 +3,7 @@ version: v1
 managed:
   enabled: true
   go_package_prefix:
-    default: github.com/21hack02win/nascalay-v2-backend/pkg/bufgen
+    default: github.com/21hack02win/nascalay-v2/pkg/bufgen
 
 plugins:
   - name: go

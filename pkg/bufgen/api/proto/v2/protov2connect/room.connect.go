@@ -7,7 +7,7 @@ package protov2connect
 import (
 	context "context"
 	errors "errors"
-	v2 "github.com/21hack02win/nascalay-v2-backend/pkg/bufgen/api/proto/v2"
+	v2 "github.com/21hack02win/nascalay-v2/pkg/bufgen/api/proto/v2"
 	connect_go "github.com/bufbuild/connect-go"
 	http "net/http"
 	strings "strings"

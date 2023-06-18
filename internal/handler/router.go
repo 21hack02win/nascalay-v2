@@ -3,7 +3,7 @@ package handler
 import (
 	"net/http"
 
-	"github.com/21hack02win/nascalay-v2-backend/pkg/bufgen/api/proto/v2/protov2connect"
+	"github.com/21hack02win/nascalay-v2/pkg/bufgen/api/proto/v2/protov2connect"
 )
 
 func SetupRoutes(mux *http.ServeMux) {

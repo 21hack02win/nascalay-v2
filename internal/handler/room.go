@@ -3,8 +3,8 @@ package handler
 import (
 	"context"
 
-	protov2 "github.com/21hack02win/nascalay-v2-backend/pkg/bufgen/api/proto/v2"
-	"github.com/21hack02win/nascalay-v2-backend/pkg/bufgen/api/proto/v2/protov2connect"
+	protov2 "github.com/21hack02win/nascalay-v2/pkg/bufgen/api/proto/v2"
+	"github.com/21hack02win/nascalay-v2/pkg/bufgen/api/proto/v2/protov2connect"
 	"github.com/bufbuild/connect-go"
 )
 
