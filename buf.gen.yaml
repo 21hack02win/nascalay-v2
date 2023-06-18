@@ -6,6 +6,7 @@ managed:
     default: github.com/21hack02win/nascalay-v2/pkg/bufgen
 
 plugins:
+  # server
   - name: go
     path:
       - go
@@ -20,3 +21,12 @@ plugins:
       - github.com/bufbuild/connect-go/cmd/protoc-gen-connect-go@latest
     out: pkg/bufgen
     opt: paths=source_relative
+  # client/web
+  - name: es
+    path: client/web/node_modules/.bin/protoc-gen-es
+    out: client/web/src/generated
+    opt: target=ts
+  - name: connect-es
+    path: client/web/node_modules/.bin/protoc-gen-connect-es
+    out: client/web/src/generated
+    opt: target=ts
