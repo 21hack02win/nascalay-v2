@@ -19,7 +19,7 @@ export const StreamService = {
       name: "Stream",
       I: StreamRequest,
       O: StreamResponse,
-      kind: MethodKind.BiDiStreaming,
+      kind: MethodKind.ServerStreaming,
     },
   }
 } as const;

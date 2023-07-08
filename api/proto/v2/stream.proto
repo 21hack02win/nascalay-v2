@@ -2,15 +2,12 @@ syntax = "proto3";
 package api.proto.v2;
 
 service StreamService {
-  rpc Stream(stream StreamRequest) returns (stream StreamResponse) {}
+  rpc Stream(StreamRequest) returns (stream StreamResponse) {}
 }
 
 message StreamRequest {
   string room_id = 1;
   string user_id = 2;
-  oneof event {
-    bool connect = 3;
-  }
 }
 
 message StreamResponse {

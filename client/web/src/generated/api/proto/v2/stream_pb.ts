@@ -20,17 +20,6 @@ export class StreamRequest extends Message<StreamRequest> {
    */
   userId = "";
 
-  /**
-   * @generated from oneof api.proto.v2.StreamRequest.event
-   */
-  event: {
-    /**
-     * @generated from field: bool connect = 3;
-     */
-    value: boolean;
-    case: "connect";
-  } | { case: undefined; value?: undefined } = { case: undefined };
-
   constructor(data?: PartialMessage<StreamRequest>) {
     super();
     proto3.util.initPartial(data, this);
@@ -41,7 +30,6 @@ export class StreamRequest extends Message<StreamRequest> {
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "room_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
     { no: 2, name: "user_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 3, name: "connect", kind: "scalar", T: 8 /* ScalarType.BOOL */, oneof: "event" },
   ]);
 
   static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): StreamRequest {

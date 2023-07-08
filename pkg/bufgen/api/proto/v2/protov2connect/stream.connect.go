@@ -39,7 +39,7 @@ const (
 
 // StreamServiceClient is a client for the api.proto.v2.StreamService service.
 type StreamServiceClient interface {
-	Stream(context.Context) *connect_go.BidiStreamForClient[v2.StreamRequest, v2.StreamResponse]
+	Stream(context.Context, *connect_go.Request[v2.StreamRequest]) (*connect_go.ServerStreamForClient[v2.StreamResponse], error)
 }
 
 // NewStreamServiceClient constructs a client for the api.proto.v2.StreamService service. By
@@ -66,13 +66,13 @@ type streamServiceClient struct {
 }
 
 // Stream calls api.proto.v2.StreamService.Stream.
-func (c *streamServiceClient) Stream(ctx context.Context) *connect_go.BidiStreamForClient[v2.StreamRequest, v2.StreamResponse] {
-	return c.stream.CallBidiStream(ctx)
+func (c *streamServiceClient) Stream(ctx context.Context, req *connect_go.Request[v2.StreamRequest]) (*connect_go.ServerStreamForClient[v2.StreamResponse], error) {
+	return c.stream.CallServerStream(ctx, req)
 }
 
 // StreamServiceHandler is an implementation of the api.proto.v2.StreamService service.
 type StreamServiceHandler interface {
-	Stream(context.Context, *connect_go.BidiStream[v2.StreamRequest, v2.StreamResponse]) error
+	Stream(context.Context, *connect_go.Request[v2.StreamRequest], *connect_go.ServerStream[v2.StreamResponse]) error
 }
 
 // NewStreamServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -81,18 +81,24 @@ type StreamServiceHandler interface {
 // By default, handlers support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
 // and JSON codecs. They also support gzip compression.
 func NewStreamServiceHandler(svc StreamServiceHandler, opts ...connect_go.HandlerOption) (string, http.Handler) {
-	mux := http.NewServeMux()
-	mux.Handle(StreamServiceStreamProcedure, connect_go.NewBidiStreamHandler(
+	streamServiceStreamHandler := connect_go.NewServerStreamHandler(
 		StreamServiceStreamProcedure,
 		svc.Stream,
 		opts...,
-	))
-	return "/api.proto.v2.StreamService/", mux
+	)
+	return "/api.proto.v2.StreamService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		switch r.URL.Path {
+		case StreamServiceStreamProcedure:
+			streamServiceStreamHandler.ServeHTTP(w, r)
+		default:
+			http.NotFound(w, r)
+		}
+	})
 }
 
 // UnimplementedStreamServiceHandler returns CodeUnimplemented from all methods.
 type UnimplementedStreamServiceHandler struct{}
 
-func (UnimplementedStreamServiceHandler) Stream(context.Context, *connect_go.BidiStream[v2.StreamRequest, v2.StreamResponse]) error {
+func (UnimplementedStreamServiceHandler) Stream(context.Context, *connect_go.Request[v2.StreamRequest], *connect_go.ServerStream[v2.StreamResponse]) error {
 	return connect_go.NewError(connect_go.CodeUnimplemented, errors.New("api.proto.v2.StreamService.Stream is not implemented"))
 }

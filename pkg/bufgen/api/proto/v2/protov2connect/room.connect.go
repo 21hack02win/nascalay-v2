@@ -96,18 +96,26 @@ type RoomServiceHandler interface {
 // By default, handlers support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
 // and JSON codecs. They also support gzip compression.
 func NewRoomServiceHandler(svc RoomServiceHandler, opts ...connect_go.HandlerOption) (string, http.Handler) {
-	mux := http.NewServeMux()
-	mux.Handle(RoomServiceCreateProcedure, connect_go.NewUnaryHandler(
+	roomServiceCreateHandler := connect_go.NewUnaryHandler(
 		RoomServiceCreateProcedure,
 		svc.Create,
 		opts...,
-	))
-	mux.Handle(RoomServiceJoinProcedure, connect_go.NewUnaryHandler(
+	)
+	roomServiceJoinHandler := connect_go.NewUnaryHandler(
 		RoomServiceJoinProcedure,
 		svc.Join,
 		opts...,
-	))
-	return "/api.proto.v2.RoomService/", mux
+	)
+	return "/api.proto.v2.RoomService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		switch r.URL.Path {
+		case RoomServiceCreateProcedure:
+			roomServiceCreateHandler.ServeHTTP(w, r)
+		case RoomServiceJoinProcedure:
+			roomServiceJoinHandler.ServeHTTP(w, r)
+		default:
+			http.NotFound(w, r)
+		}
+	})
 }
 
 // UnimplementedRoomServiceHandler returns CodeUnimplemented from all methods.
