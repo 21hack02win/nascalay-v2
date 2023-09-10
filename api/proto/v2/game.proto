@@ -1,0 +1,28 @@
+syntax = "proto3";
+package api.proto.v2;
+
+import "google/protobuf/empty.proto";
+
+service GameService {
+  rpc ReadyToStart (google.protobuf.Empty) returns (google.protobuf.Empty) {}
+  rpc SubmitTheme (SubmitThemeRequest) returns (google.protobuf.Empty) {}
+  rpc LockDrawing (LockDrawingRequest) returns (google.protobuf.Empty) {}
+  rpc SubmitAnswer (SubmitAnswerRequest) returns (google.protobuf.Empty) {}
+  rpc ShowNextAnswer (google.protobuf.Empty) returns (google.protobuf.Empty) {}
+  rpc ReturnRoom (google.protobuf.Empty) returns (google.protobuf.Empty) {}
+  rpc ExitRoom (google.protobuf.Empty) returns (google.protobuf.Empty) {}
+}
+
+message SubmitThemeRequest {
+  string theme = 1;
+}
+
+message LockDrawingRequest {
+  string drawing = 1;
+}
+
+message SubmitAnswerRequest {
+  string answer = 1;
+}
+
+

@@ -3,7 +3,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { StreamRequest, StreamResponse } from "./stream_pb.js";
+import { ConnectRequest, ConnectResponse } from "./stream_pb.js";
 import { MethodKind } from "@bufbuild/protobuf";
 
 /**
@@ -13,12 +13,12 @@ export const StreamService = {
   typeName: "api.proto.v2.StreamService",
   methods: {
     /**
-     * @generated from rpc api.proto.v2.StreamService.Stream
+     * @generated from rpc api.proto.v2.StreamService.Connect
      */
-    stream: {
-      name: "Stream",
-      I: StreamRequest,
-      O: StreamResponse,
+    connect: {
+      name: "Connect",
+      I: ConnectRequest,
+      O: ConnectResponse,
       kind: MethodKind.ServerStreaming,
     },
   }

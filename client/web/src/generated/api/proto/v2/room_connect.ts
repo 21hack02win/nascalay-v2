@@ -3,7 +3,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { RoomServiceCreateRequest, RoomServiceCreateResponse, RoomServiceJoinRequest, RoomServiceJoinResponse } from "./room_pb.js";
+import { RoomServiceCreateRequest, RoomServiceCreateResponse } from "./room_pb.js";
 import { MethodKind } from "@bufbuild/protobuf";
 
 /**
@@ -19,15 +19,6 @@ export const RoomService = {
       name: "Create",
       I: RoomServiceCreateRequest,
       O: RoomServiceCreateResponse,
-      kind: MethodKind.Unary,
-    },
-    /**
-     * @generated from rpc api.proto.v2.RoomService.Join
-     */
-    join: {
-      name: "Join",
-      I: RoomServiceJoinRequest,
-      O: RoomServiceJoinResponse,
       kind: MethodKind.Unary,
     },
   }

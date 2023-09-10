@@ -33,13 +33,13 @@ const (
 // reflection-formatted method names, remove the leading slash and convert the remaining slash to a
 // period.
 const (
-	// StreamServiceStreamProcedure is the fully-qualified name of the StreamService's Stream RPC.
-	StreamServiceStreamProcedure = "/api.proto.v2.StreamService/Stream"
+	// StreamServiceConnectProcedure is the fully-qualified name of the StreamService's Connect RPC.
+	StreamServiceConnectProcedure = "/api.proto.v2.StreamService/Connect"
 )
 
 // StreamServiceClient is a client for the api.proto.v2.StreamService service.
 type StreamServiceClient interface {
-	Stream(context.Context, *connect_go.Request[v2.StreamRequest]) (*connect_go.ServerStreamForClient[v2.StreamResponse], error)
+	Connect(context.Context, *connect_go.Request[v2.ConnectRequest]) (*connect_go.ServerStreamForClient[v2.ConnectResponse], error)
 }
 
 // NewStreamServiceClient constructs a client for the api.proto.v2.StreamService service. By
@@ -52,9 +52,9 @@ type StreamServiceClient interface {
 func NewStreamServiceClient(httpClient connect_go.HTTPClient, baseURL string, opts ...connect_go.ClientOption) StreamServiceClient {
 	baseURL = strings.TrimRight(baseURL, "/")
 	return &streamServiceClient{
-		stream: connect_go.NewClient[v2.StreamRequest, v2.StreamResponse](
+		connect: connect_go.NewClient[v2.ConnectRequest, v2.ConnectResponse](
 			httpClient,
-			baseURL+StreamServiceStreamProcedure,
+			baseURL+StreamServiceConnectProcedure,
 			opts...,
 		),
 	}
@@ -62,17 +62,17 @@ func NewStreamServiceClient(httpClient connect_go.HTTPClient, baseURL string, op
 
 // streamServiceClient implements StreamServiceClient.
 type streamServiceClient struct {
-	stream *connect_go.Client[v2.StreamRequest, v2.StreamResponse]
+	connect *connect_go.Client[v2.ConnectRequest, v2.ConnectResponse]
 }
 
-// Stream calls api.proto.v2.StreamService.Stream.
-func (c *streamServiceClient) Stream(ctx context.Context, req *connect_go.Request[v2.StreamRequest]) (*connect_go.ServerStreamForClient[v2.StreamResponse], error) {
-	return c.stream.CallServerStream(ctx, req)
+// Connect calls api.proto.v2.StreamService.Connect.
+func (c *streamServiceClient) Connect(ctx context.Context, req *connect_go.Request[v2.ConnectRequest]) (*connect_go.ServerStreamForClient[v2.ConnectResponse], error) {
+	return c.connect.CallServerStream(ctx, req)
 }
 
 // StreamServiceHandler is an implementation of the api.proto.v2.StreamService service.
 type StreamServiceHandler interface {
-	Stream(context.Context, *connect_go.Request[v2.StreamRequest], *connect_go.ServerStream[v2.StreamResponse]) error
+	Connect(context.Context, *connect_go.Request[v2.ConnectRequest], *connect_go.ServerStream[v2.ConnectResponse]) error
 }
 
 // NewStreamServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -81,15 +81,15 @@ type StreamServiceHandler interface {
 // By default, handlers support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
 // and JSON codecs. They also support gzip compression.
 func NewStreamServiceHandler(svc StreamServiceHandler, opts ...connect_go.HandlerOption) (string, http.Handler) {
-	streamServiceStreamHandler := connect_go.NewServerStreamHandler(
-		StreamServiceStreamProcedure,
-		svc.Stream,
+	streamServiceConnectHandler := connect_go.NewServerStreamHandler(
+		StreamServiceConnectProcedure,
+		svc.Connect,
 		opts...,
 	)
 	return "/api.proto.v2.StreamService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
-		case StreamServiceStreamProcedure:
-			streamServiceStreamHandler.ServeHTTP(w, r)
+		case StreamServiceConnectProcedure:
+			streamServiceConnectHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -99,6 +99,6 @@ func NewStreamServiceHandler(svc StreamServiceHandler, opts ...connect_go.Handle
 // UnimplementedStreamServiceHandler returns CodeUnimplemented from all methods.
 type UnimplementedStreamServiceHandler struct{}
 
-func (UnimplementedStreamServiceHandler) Stream(context.Context, *connect_go.Request[v2.StreamRequest], *connect_go.ServerStream[v2.StreamResponse]) error {
-	return connect_go.NewError(connect_go.CodeUnimplemented, errors.New("api.proto.v2.StreamService.Stream is not implemented"))
+func (UnimplementedStreamServiceHandler) Connect(context.Context, *connect_go.Request[v2.ConnectRequest], *connect_go.ServerStream[v2.ConnectResponse]) error {
+	return connect_go.NewError(connect_go.CodeUnimplemented, errors.New("api.proto.v2.StreamService.Connect is not implemented"))
 }

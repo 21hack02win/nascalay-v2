@@ -20,10 +20,3 @@ type roomServiceCreateResponse = connect.Response[protov2.RoomServiceCreateRespo
 func (h *roomHandler) Create(context.Context, *roomServiceCreateRequest) (*roomServiceCreateResponse, error) {
 	panic("implement me")
 }
-
-type roomServiceJoinRequest = connect.Request[protov2.RoomServiceJoinRequest]
-type roomServiceJoinResponse = connect.Response[protov2.RoomServiceJoinResponse]
-
-func (h *roomHandler) Join(context.Context, *roomServiceJoinRequest) (*roomServiceJoinResponse, error) {
-	panic("implement me")
-}

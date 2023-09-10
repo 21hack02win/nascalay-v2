@@ -1,0 +1,60 @@
+syntax = "proto3";
+package api.proto.v2;
+
+import "google/protobuf/duration.proto";
+
+message Player {
+  message Avatar {
+    enum AvatarType  {
+      AVATAR_TYPE_UNSPECIFIED = 0;
+      AVATAR_TYPE_DOG = 1;
+      AVATAR_TYPE_CAT = 2;
+    }
+
+    AvatarType type = 1;
+    string color = 2;
+  }
+
+  string id = 1;
+  string name = 2;
+  Avatar avatar = 3;
+}
+
+message Reaction {
+  string id = 1;
+  string content = 2;
+}
+
+message Room {
+  enum RoomShape {
+    ROOM_SHAPE_UNSPECIFIED = 0;
+    ROOM_SHAPE_5X5 = 1;
+  }
+
+  string id = 1;
+  string name = 2;
+  uint32 capacity = 3;
+  RoomShape shape = 4;
+  google.protobuf.Duration duration = 5;
+  repeated Player players = 6;
+  Game game = 8;
+}
+
+message Game {
+  enum GamePhase {
+    GAME_PHASE_UNSPECIFIED = 0;
+    GAME_PHASE_THEME = 1;
+    GAME_PHASE_DRAW = 2;
+    GAME_PHASE_ANSWER = 3;
+    GAME_PHASE_RESULT = 4;
+  }
+
+  string id = 1;
+  GamePhase phase = 2;
+  repeated Theme themes = 3;
+}
+
+message Theme {
+  string title = 1;
+  string answer = 2;
+}

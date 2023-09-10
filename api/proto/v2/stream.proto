@@ -1,22 +1,21 @@
 syntax = "proto3";
 package api.proto.v2;
 
+import "api/proto/v2/schema.proto";
+
 service StreamService {
-  rpc Stream(StreamRequest) returns (stream StreamResponse) {}
+  rpc Connect(ConnectRequest) returns (stream ConnectResponse) {}
 }
 
-message StreamRequest {
+message ConnectRequest {
   string room_id = 1;
-  string user_id = 2;
+  string player_name = 2;
+  Player.Avatar avatar = 3;
 }
 
-message StreamResponse {
+message ConnectResponse {
   string room_id = 1;
   oneof event {
-    EventNewUserJoined new_user_joined = 2;
+    Player player = 2;
   }
-}
-
-message EventNewUserJoined {
-  string user_id = 1;
 }

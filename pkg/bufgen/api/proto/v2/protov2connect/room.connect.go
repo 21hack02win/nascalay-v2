@@ -35,14 +35,11 @@ const (
 const (
 	// RoomServiceCreateProcedure is the fully-qualified name of the RoomService's Create RPC.
 	RoomServiceCreateProcedure = "/api.proto.v2.RoomService/Create"
-	// RoomServiceJoinProcedure is the fully-qualified name of the RoomService's Join RPC.
-	RoomServiceJoinProcedure = "/api.proto.v2.RoomService/Join"
 )
 
 // RoomServiceClient is a client for the api.proto.v2.RoomService service.
 type RoomServiceClient interface {
 	Create(context.Context, *connect_go.Request[v2.RoomServiceCreateRequest]) (*connect_go.Response[v2.RoomServiceCreateResponse], error)
-	Join(context.Context, *connect_go.Request[v2.RoomServiceJoinRequest]) (*connect_go.Response[v2.RoomServiceJoinResponse], error)
 }
 
 // NewRoomServiceClient constructs a client for the api.proto.v2.RoomService service. By default, it
@@ -60,18 +57,12 @@ func NewRoomServiceClient(httpClient connect_go.HTTPClient, baseURL string, opts
 			baseURL+RoomServiceCreateProcedure,
 			opts...,
 		),
-		join: connect_go.NewClient[v2.RoomServiceJoinRequest, v2.RoomServiceJoinResponse](
-			httpClient,
-			baseURL+RoomServiceJoinProcedure,
-			opts...,
-		),
 	}
 }
 
 // roomServiceClient implements RoomServiceClient.
 type roomServiceClient struct {
 	create *connect_go.Client[v2.RoomServiceCreateRequest, v2.RoomServiceCreateResponse]
-	join   *connect_go.Client[v2.RoomServiceJoinRequest, v2.RoomServiceJoinResponse]
 }
 
 // Create calls api.proto.v2.RoomService.Create.
@@ -79,15 +70,9 @@ func (c *roomServiceClient) Create(ctx context.Context, req *connect_go.Request[
 	return c.create.CallUnary(ctx, req)
 }
 
-// Join calls api.proto.v2.RoomService.Join.
-func (c *roomServiceClient) Join(ctx context.Context, req *connect_go.Request[v2.RoomServiceJoinRequest]) (*connect_go.Response[v2.RoomServiceJoinResponse], error) {
-	return c.join.CallUnary(ctx, req)
-}
-
 // RoomServiceHandler is an implementation of the api.proto.v2.RoomService service.
 type RoomServiceHandler interface {
 	Create(context.Context, *connect_go.Request[v2.RoomServiceCreateRequest]) (*connect_go.Response[v2.RoomServiceCreateResponse], error)
-	Join(context.Context, *connect_go.Request[v2.RoomServiceJoinRequest]) (*connect_go.Response[v2.RoomServiceJoinResponse], error)
 }
 
 // NewRoomServiceHandler builds an HTTP handler from the service implementation. It returns the path
@@ -101,17 +86,10 @@ func NewRoomServiceHandler(svc RoomServiceHandler, opts ...connect_go.HandlerOpt
 		svc.Create,
 		opts...,
 	)
-	roomServiceJoinHandler := connect_go.NewUnaryHandler(
-		RoomServiceJoinProcedure,
-		svc.Join,
-		opts...,
-	)
 	return "/api.proto.v2.RoomService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case RoomServiceCreateProcedure:
 			roomServiceCreateHandler.ServeHTTP(w, r)
-		case RoomServiceJoinProcedure:
-			roomServiceJoinHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -123,8 +101,4 @@ type UnimplementedRoomServiceHandler struct{}
 
 func (UnimplementedRoomServiceHandler) Create(context.Context, *connect_go.Request[v2.RoomServiceCreateRequest]) (*connect_go.Response[v2.RoomServiceCreateResponse], error) {
 	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("api.proto.v2.RoomService.Create is not implemented"))
-}
-
-func (UnimplementedRoomServiceHandler) Join(context.Context, *connect_go.Request[v2.RoomServiceJoinRequest]) (*connect_go.Response[v2.RoomServiceJoinResponse], error) {
-	return nil, connect_go.NewError(connect_go.CodeUnimplemented, errors.New("api.proto.v2.RoomService.Join is not implemented"))
 }

@@ -5,133 +5,103 @@
 
 import type { BinaryReadOptions, FieldList, JsonReadOptions, JsonValue, PartialMessage, PlainMessage } from "@bufbuild/protobuf";
 import { Message, proto3 } from "@bufbuild/protobuf";
+import { Player, Player_Avatar } from "./schema_pb.js";
 
 /**
- * @generated from message api.proto.v2.StreamRequest
+ * @generated from message api.proto.v2.ConnectRequest
  */
-export class StreamRequest extends Message<StreamRequest> {
+export class ConnectRequest extends Message<ConnectRequest> {
   /**
    * @generated from field: string room_id = 1;
    */
   roomId = "";
 
   /**
-   * @generated from field: string user_id = 2;
+   * @generated from field: string player_name = 2;
    */
-  userId = "";
+  playerName = "";
 
-  constructor(data?: PartialMessage<StreamRequest>) {
+  /**
+   * @generated from field: api.proto.v2.Player.Avatar avatar = 3;
+   */
+  avatar?: Player_Avatar;
+
+  constructor(data?: PartialMessage<ConnectRequest>) {
     super();
     proto3.util.initPartial(data, this);
   }
 
   static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "api.proto.v2.StreamRequest";
+  static readonly typeName = "api.proto.v2.ConnectRequest";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "room_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "user_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 2, name: "player_name", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+    { no: 3, name: "avatar", kind: "message", T: Player_Avatar },
   ]);
 
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): StreamRequest {
-    return new StreamRequest().fromBinary(bytes, options);
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ConnectRequest {
+    return new ConnectRequest().fromBinary(bytes, options);
   }
 
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): StreamRequest {
-    return new StreamRequest().fromJson(jsonValue, options);
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ConnectRequest {
+    return new ConnectRequest().fromJson(jsonValue, options);
   }
 
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): StreamRequest {
-    return new StreamRequest().fromJsonString(jsonString, options);
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ConnectRequest {
+    return new ConnectRequest().fromJsonString(jsonString, options);
   }
 
-  static equals(a: StreamRequest | PlainMessage<StreamRequest> | undefined, b: StreamRequest | PlainMessage<StreamRequest> | undefined): boolean {
-    return proto3.util.equals(StreamRequest, a, b);
+  static equals(a: ConnectRequest | PlainMessage<ConnectRequest> | undefined, b: ConnectRequest | PlainMessage<ConnectRequest> | undefined): boolean {
+    return proto3.util.equals(ConnectRequest, a, b);
   }
 }
 
 /**
- * @generated from message api.proto.v2.StreamResponse
+ * @generated from message api.proto.v2.ConnectResponse
  */
-export class StreamResponse extends Message<StreamResponse> {
+export class ConnectResponse extends Message<ConnectResponse> {
   /**
    * @generated from field: string room_id = 1;
    */
   roomId = "";
 
   /**
-   * @generated from oneof api.proto.v2.StreamResponse.event
+   * @generated from oneof api.proto.v2.ConnectResponse.event
    */
   event: {
     /**
-     * @generated from field: api.proto.v2.EventNewUserJoined new_user_joined = 2;
+     * @generated from field: api.proto.v2.Player player = 2;
      */
-    value: EventNewUserJoined;
-    case: "newUserJoined";
+    value: Player;
+    case: "player";
   } | { case: undefined; value?: undefined } = { case: undefined };
 
-  constructor(data?: PartialMessage<StreamResponse>) {
+  constructor(data?: PartialMessage<ConnectResponse>) {
     super();
     proto3.util.initPartial(data, this);
   }
 
   static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "api.proto.v2.StreamResponse";
+  static readonly typeName = "api.proto.v2.ConnectResponse";
   static readonly fields: FieldList = proto3.util.newFieldList(() => [
     { no: 1, name: "room_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-    { no: 2, name: "new_user_joined", kind: "message", T: EventNewUserJoined, oneof: "event" },
+    { no: 2, name: "player", kind: "message", T: Player, oneof: "event" },
   ]);
 
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): StreamResponse {
-    return new StreamResponse().fromBinary(bytes, options);
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): ConnectResponse {
+    return new ConnectResponse().fromBinary(bytes, options);
   }
 
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): StreamResponse {
-    return new StreamResponse().fromJson(jsonValue, options);
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): ConnectResponse {
+    return new ConnectResponse().fromJson(jsonValue, options);
   }
 
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): StreamResponse {
-    return new StreamResponse().fromJsonString(jsonString, options);
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): ConnectResponse {
+    return new ConnectResponse().fromJsonString(jsonString, options);
   }
 
-  static equals(a: StreamResponse | PlainMessage<StreamResponse> | undefined, b: StreamResponse | PlainMessage<StreamResponse> | undefined): boolean {
-    return proto3.util.equals(StreamResponse, a, b);
-  }
-}
-
-/**
- * @generated from message api.proto.v2.EventNewUserJoined
- */
-export class EventNewUserJoined extends Message<EventNewUserJoined> {
-  /**
-   * @generated from field: string user_id = 1;
-   */
-  userId = "";
-
-  constructor(data?: PartialMessage<EventNewUserJoined>) {
-    super();
-    proto3.util.initPartial(data, this);
-  }
-
-  static readonly runtime: typeof proto3 = proto3;
-  static readonly typeName = "api.proto.v2.EventNewUserJoined";
-  static readonly fields: FieldList = proto3.util.newFieldList(() => [
-    { no: 1, name: "user_id", kind: "scalar", T: 9 /* ScalarType.STRING */ },
-  ]);
-
-  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): EventNewUserJoined {
-    return new EventNewUserJoined().fromBinary(bytes, options);
-  }
-
-  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): EventNewUserJoined {
-    return new EventNewUserJoined().fromJson(jsonValue, options);
-  }
-
-  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): EventNewUserJoined {
-    return new EventNewUserJoined().fromJsonString(jsonString, options);
-  }
-
-  static equals(a: EventNewUserJoined | PlainMessage<EventNewUserJoined> | undefined, b: EventNewUserJoined | PlainMessage<EventNewUserJoined> | undefined): boolean {
-    return proto3.util.equals(EventNewUserJoined, a, b);
+  static equals(a: ConnectResponse | PlainMessage<ConnectResponse> | undefined, b: ConnectResponse | PlainMessage<ConnectResponse> | undefined): boolean {
+    return proto3.util.equals(ConnectResponse, a, b);
   }
 }
 
